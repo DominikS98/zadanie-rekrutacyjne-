@@ -1,13 +1,13 @@
 <template>
   <nav class="menu__box">
-    <button @click="prev">Poprzednia strona</button>
-    <button @click="next">Następna strona</button>
+    <button @click="poprzednie">Poprzednia strona</button>
+    <button @click="następne;">Następna strona</button>
     <button @click="reset">Reset</button>
     <input @keyup="szukaj" v-model="szukanaFraza" placeholder="szukaj" />
   </nav>
 
   <tabela-api
-    :tabToTable="tabToTable"
+    :tabToTable="tabDoTabeli"
     @wyslij-id="wyslij"
     @sortowanie-tablicy="sortowanie"
   />
@@ -23,7 +23,7 @@ export default {
   data() {
     return {
       tab: [],
-      tabToTable: [],
+      tabDoTabeli: [],
       limit: 10,
       szukanaFraza: null,
       jakieSorotwanie: "id",
@@ -34,10 +34,10 @@ export default {
     sortowanie(kolumna) {
       if (kolumna != this.jakieSorotwanie) {
         this.jakieSorotwanie = kolumna;
-        this.tabToTable.sort((a, b) => (a[kolumna] > b[kolumna] ? 1 : -1));
+        this.tabDoTabeli.sort((a, b) => (a[kolumna] > b[kolumna] ? 1 : -1));
       } else {
         this.jakieSorotwanie = "";
-        this.tabToTable.sort((a, b) => (a[kolumna] < b[kolumna] ? 1 : -1));
+        this.tabDoTabeli.sort((a, b) => (a[kolumna] < b[kolumna] ? 1 : -1));
       }
     },
     async wyslij(id) {
@@ -67,7 +67,7 @@ export default {
 
     async reset() {
       this.szukanaFraza = null;
-      this.tabToTable = [];
+      this.tabDoTabeli = [];
       return fetch(
         `https://app.linkhouse.co/rekrutacja/api?api_key=${this.api_key}`,
         {
@@ -89,7 +89,7 @@ export default {
             for (const item of this.tab) {
               if (i < 10) {
                 i++;
-                this.tabToTable.push(item);
+                this.tabDoTabeli.push(item);
               }
             }
           } else {
@@ -105,38 +105,38 @@ export default {
     szukaj() {
       if (this.szukanaFraza != "") {
         const TablicaZnalezionych = [];
-        for (const item of this.tabToTable) {
+        for (const item of this.tabDoTabeli) {
           if (
             item.name.includes(this.szukanaFraza) ||
             item.login.includes(this.szukanaFraza)
           ) {
             TablicaZnalezionych.push(item);
           }
-          this.tabToTable = TablicaZnalezionych;
+          this.tabDoTabeli = TablicaZnalezionych;
         }
       }
     },
-    next() {
+    następne() {
       if (this.limit != 100) {
-        this.tabToTable = [];
+        this.tabDoTabeli = [];
         let i = 0;
         this.limit += 10;
         for (const item of this.tab) {
           if (i < this.limit && i > this.limit - 11) {
-            this.tabToTable.push(item);
+            this.tabDoTabeli.push(item);
           }
           i++;
         }
       }
     },
-    prev() {
+    poprzednie() {
       if (this.limit != 10) {
-        this.tabToTable = [];
+        this.tabDoTabeli = [];
         let i = 0;
         this.limit -= 10;
         for (const item of this.tab) {
           if (i < this.limit && i > this.limit - 11) {
-            this.tabToTable.push(item);
+            this.tabDoTabeli.push(item);
           }
           i++;
         }
