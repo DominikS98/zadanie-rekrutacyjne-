@@ -1,5 +1,11 @@
 # vue-app-rekrutacja
 
+sortowanie poprzez nacisniecie nagłówka tabeli
+
+wyszukiwanie poprzez wpisanie szukanej frazy 
+
+link do wersji live: https://venerable-conkies-c50f66.netlify.app
+
 ## Project setup
 ```
 npm install
