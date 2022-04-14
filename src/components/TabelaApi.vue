@@ -26,7 +26,6 @@
 export default {
   props: ["tabToTable"],
   methods: {
-    cos() {},
     wyslij(id) {
       console.log(id);
       this.$emit("wyslijId", id);

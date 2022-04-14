@@ -27,6 +27,7 @@ export default {
       limit: 10,
       szukanaFraza: null,
       jakieSorotwanie: "id",
+      api_key: "",
     };
   },
   methods: {
@@ -40,31 +41,43 @@ export default {
       }
     },
     async wyslij(id) {
-      this.szukanaFraza = null;
       return fetch(
-        "https://app.linkhouse.co/rekrutacja/api?api_key=APIREKRUTACJA&user_id=" +
+        `https://app.linkhouse.co/rekrutacja/ping?api_key=${this.api_key}&user_id=` +
           id,
         {
           method: "POST",
           "content-type": "application/json",
         }
-      ).then((dana) => console.log(dana));
+      )
+        .then((dana) => {
+          if (dana.ok) {
+            return dana.json();
+          } else {
+            throw new Error("Something went wrong");
+          }
+        })
+        .then((daneR) => {
+          if (daneR.msg == "ok") {
+            console.log(daneR);
+          } else {
+            throw new Error(daneR.errors);
+          }
+        });
     },
 
     async reset() {
       this.szukanaFraza = null;
       this.tabToTable = [];
       return fetch(
-        "https://app.linkhouse.co/rekrutacja/api?api_key=APIREKRUTACJA",
+        `https://app.linkhouse.co/rekrutacja/api?api_key=${this.api_key}`,
         {
           method: "POST",
           "content-type": "application/json",
         }
       )
-        .then((data) => {
-          if (data.ok) {
-            // console.log(data);
-            return data.json();
+        .then((dana) => {
+          if (dana.ok) {
+            return dana.json();
           } else {
             throw new Error("Something went wrong");
           }
@@ -131,6 +144,12 @@ export default {
     },
   },
   async created() {
+    if (localStorage.getItem("api_key") === null) {
+      localStorage.setItem("api_key", prompt("Prosze podać klucz api"));
+      this.api_key = localStorage.getItem("api_key");
+    } else {
+      this.api_key = localStorage.getItem("api_key");
+    }
     this.reset();
   },
 };
