@@ -1,6 +1,6 @@
 # vue-app-rekrutacja
 
-sortowanie poprzez nacisniecie nagłówka tabeli
+sortowanie poprzez nacisniecie nagłówka kolumny
 
 wyszukiwanie poprzez wpisanie szukanej frazy 
 
