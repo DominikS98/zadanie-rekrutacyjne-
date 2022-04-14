@@ -1,6 +1,6 @@
 # vue-app-rekrutacja
 
-sortowanie poprzez nacisniecie nagłówka kolumny
+obsługa sortowania jest poprzez naciśnięcie nagłówka kolumny
 
 wyszukiwanie poprzez wpisanie szukanej frazy 
 
